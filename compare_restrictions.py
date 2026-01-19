@@ -42,17 +42,17 @@ for rep in range(n_iter):
     red_problem = LpProblem("Aux_problem", LpMinimize)
     red_distance = LpVariable.dicts("aux_distance", range(n_size), cat='Continuous')
     red_leg = LpVariable.dicts("aux_leg", range(n_size), cat='Continuous')
-    red_problem += 0  # objetivo dummy
+    red_problem += 0  # dummy target
 
     two_points = [(i, j) for i in range(n_size) for j in range(n_size) if i != j]
 
     for (i, j) in two_points:
         if i < j:
             if (i == j-1) or ((max_closer[i, j-1] != max_closer[i, j]) and ((i == 0) or (max_closer[i-1, j] != max_closer[i, j]))):
-                red_problem += aux_distance[i] + aux_distance[j] - 2*aux_distance[max_closer[i, j]] - aux_leg[i] + aux_leg[j] >= 1
+                red_problem += red_distance[i] + red_distance[j] - 2*red_distance[max_closer[i, j]] - red_leg[i] + red_leg[j] >= 1
         elif i > j:
             if (i == j+1) or ((max_closer[i, j+1] != max_closer[i, j]) and ((i == (n_size-1)) or (max_closer[i+1, j] != max_closer[i, j]))):
-                red_problem += -aux_distance[i] - aux_distance[j] + 2*aux_distance[max_closer[i, j]] - aux_leg[i] + aux_leg[j] >= 1
+                red_problem += -red_distance[i] - red_distance[j] + 2*red_distance[max_closer[i, j]] - red_leg[i] + red_leg[j] >= 1
 
     #Count the amount of constraints in the reduced problem
     red_constraints = len(red_problem.constraints)
@@ -116,4 +116,5 @@ summary_filename = f"summary_{n_size}.csv"
 with open(summary_filename, "w", newline="") as f:
     writer = csv.DictWriter(f, fieldnames=summary.keys())
     writer.writeheader()
+
     writer.writerow(summary)
