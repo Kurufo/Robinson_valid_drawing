@@ -16,10 +16,12 @@ Where:
 - n_size denotes the size of the Robinson spaces that will be tested.
 - n_iterations denotes the amount of randomly generated Robinson spaces that will be tested.
 
+The code will generate two files, "results_{n_size}.csv" that writes the amount of restrictions for each Robinson space tested, and "summary_{n_size}.csv", that writes the average and the standard deviation for both methods tested.
+
 We show a line example to run this code.
 
 > python3 compare_restrictions.py 10 100
 
-Here, the code will generate 100 random Robinson matrices of size 10 using the generator from the "seriation" library in R, and will try to find a valid drawing in a caterpillar for each of them using the PuLP library.
+Here, the code will generate 100 random Robinson matrices of size 10 using the generator from the "seriation" library in R, and will count the amount of restrictions for each formulation of the linear programs used, writing these results in the files "resuñts_10.csv" and "summary_10.csv". 
 
 
